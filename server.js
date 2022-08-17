@@ -1,22 +1,20 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 
-app.use(express.json());  // request ka apna ak formate hota he jisko hm json se convert karte he
+app.use(express.json());  
 
 
-const userRouter = require('./routes/user');
-app.use("/api/users",userRouter);
+const studentRouter = require('./routes/student');
+app.use("/api/students",studentRouter);
 
-const connection = require('./models');
-connection();
+mongoose.connect("mongodb+srv://QaziAhmad:qazi03331602121ahmad@cluster0.82zpao1.mongodb.net/electrical").then(function(result) {  // mongoose odm k through hm mongodb k saath connection kar lete he
+    console.log("Database connected");
+}).catch(function(err) {
+    console.log(err);
+});
 
 const port = 4000;
 app.listen(port,()=>{
     console.log(`Server is running on: ${port}`);
 })
-// MVC
-
-// models folder me hm database k model rakte he ye database k saath communication karta he. ye database k files hote he
-// Mongodb schemaless he mtlb isme wo hame force nahe karta k hame ho data store karna he osme ye ye fields honge
-// ou ye zyada data store karne k liye use hota he or isme data in the form of file store hota he json k form he or 
-// isme koi relation nahe hoti.
